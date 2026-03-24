@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>QR Code Generator</h2>
+    <input type="text" id="text" placeholder="Enter text to generate QR code">
+<button onclick="generate()">Generate</button>
+    <img id="qrImage" alt="QR Code" width="200">
+</body>
+<script>
+    async function generate() {
+    const text = document.getElementById('text').value;
+
+    console.log("Sending:", text); // debug
+
+    const res = await fetch("/generate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: text })
+    });
+
+    const data = await res.json();
+    console.log("Received QR:", data);
+
+    document.getElementById('qrImage').src = data.qrCode;
+}
+</script>
+</html>
